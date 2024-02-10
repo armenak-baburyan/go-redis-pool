@@ -1,4 +1,4 @@
-module github.com/bitleak/go-redis-pool/v3
+module github.com/armenak-baburyan/go-redis-pool/v3
 
 go 1.20
 
