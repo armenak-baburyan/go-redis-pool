@@ -225,6 +225,14 @@ func (p *Pool) TxPipeline() (redis.Pipeliner, error) {
 	return conn.TxPipeline(), nil
 }
 
+func (p *Pool) TxPipelineSlave() (redis.Pipeliner, error) {
+	if _, ok := p.connFactory.(*ShardConnFactory); ok {
+		return nil, errShardPoolUnSupported
+	}
+	conn, _ := p.connFactory.getSlaveConn()
+	return conn.TxPipeline(), nil
+}
+
 func (p *Pool) TxPipelined(ctx context.Context, fn func(redis.Pipeliner) error) ([]redis.Cmder, error) {
 	if _, ok := p.connFactory.(*ShardConnFactory); ok {
 		return nil, errShardPoolUnSupported
